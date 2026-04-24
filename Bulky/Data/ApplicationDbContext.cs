@@ -10,6 +10,8 @@ namespace Bulky.Data
 
         }
 
+        //Wat is een DbSet? Je mag dit vergelijken met een tabel uit de database
+        //In de DbSet zullen objecten zitten van het type Category (model)
         public DbSet<Category> Categories { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
