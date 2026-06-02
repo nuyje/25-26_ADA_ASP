@@ -9,8 +9,10 @@ namespace Bulky.Models
     {
         [Key]
         public int Id { get; set; }
+
         [Required]
         public string Title { get; set; }
+
         [Required]
         public string Author { get; set; }
         public string Description { get; set; }
@@ -38,6 +40,7 @@ namespace Bulky.Models
         public double Price100 { get; set; }
 
         //relatie leggen tussen product en category
+        //We voegen een property toe aan product die de category Id zal bevatten = foreign key
         public int CategoryId { get; set; }
 
         [ForeignKey("CategoryId")]
@@ -46,7 +49,7 @@ namespace Bulky.Models
 
         //mogelijk maken om met afbeeldingen te werken
         [ValidateNever]
-        public string ImageUrl { get; set; }
+        public string? ImageUrl { get; set; }
 
     }
 }

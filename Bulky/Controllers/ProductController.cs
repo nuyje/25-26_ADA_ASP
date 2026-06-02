@@ -1,6 +1,8 @@
 ﻿using Bulky.Data;
 using Bulky.Models;
+using Bulky.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace BulkyWeb.Controllers
 {
@@ -13,6 +15,7 @@ namespace BulkyWeb.Controllers
         //hier zit heel de configuratie mee in van de EF Core
         //die we eerder maakten (incl connections string)
 
+        //constructor 
         public ProductController(ApplicationDbContext db)
         {
             _db = db;
@@ -24,18 +27,28 @@ namespace BulkyWeb.Controllers
         }
         public IActionResult Create()
         {
-            return View();
+            IEnumerable<SelectListItem> categoryList =
+                _db.Categories.Select(u => new SelectListItem
+                {
+                    Text = u.Name,
+                    Value = u.Id.ToString()
+                });
+
+            ProductVM productVM = new ProductVM();
+            productVM.Product = new Product();
+            productVM.CategoryList = categoryList;
+            return View(productVM);
         }
 
         [HttpPost]
-        public IActionResult Create(Product obj)
+        public IActionResult Create(ProductVM obj)
         {
 
 
             if (ModelState.IsValid)
             {
 
-                _db.Products.Add(obj);
+                _db.Products.Add(obj.Product);
                 //enkel na volgende lijn ga je effectief wegschrijven naar de database. 
                 //zo kan je bijvoorbeeld meerdere wijzingen bijhouden / klaarzetten en dan maar
                 //1 keer naar de database gaan wanneer je klaar bent met alles
@@ -46,7 +59,7 @@ namespace BulkyWeb.Controllers
                 //hiermee worden alle categories terug geladen en getoond en ga je terug naar deze pagina
                 return RedirectToAction("Index", "Product");
             }
-            return View();
+            return View(obj);
 
 
         }
