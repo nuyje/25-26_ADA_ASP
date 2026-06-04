@@ -6,7 +6,7 @@
 
 
 
-<form method="post">
+<form method="post" enctype="multipart/form-data">
     <div class="border p-3 mt-4 mb-5 pb-5">
         <div class="row pb-2">
             <h2>Create Product</h2>
@@ -68,6 +68,13 @@
                 <option disabled selected>--Select Category--</option>
             </select>
             <span asp-validation-for="Product.CategoryId" class="text-danger"></span>
+        </div>
+
+        <div class="mb-1 row p-1">
+
+            <label asp-for="Product.ImageUrl" class="p-0"></label>
+            <input type="file" name="file" class="form-control" />
+            
         </div>
 
         <div class="row">
