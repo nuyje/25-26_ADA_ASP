@@ -1,9 +1,10 @@
 ﻿using Bulky.Data;
 using Bulky.Models;
 using Bulky.Models.ViewModels;
+using Microsoft.AspNetCore.Hosting; 
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.AspNetCore.Hosting; 
+using Microsoft.EntityFrameworkCore;
 
 namespace BulkyWeb.Controllers
 {
@@ -28,7 +29,7 @@ namespace BulkyWeb.Controllers
         }
         public IActionResult Index()
         {
-            List<Product> objProductList = _db.Products.ToList();
+            List<Product> objProductList = _db.Products.Include(p => p.Category).ToList();
             return View(objProductList);
         }
         public IActionResult Create()
@@ -108,9 +109,10 @@ namespace BulkyWeb.Controllers
             }
 
             ProductVM productVM = new ProductVM();
+            
             productVM.Product = productFromDb;
-
             productVM.CategoryList = categoryList;
+
             return View(productVM);
             
             
